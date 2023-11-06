@@ -1,4 +1,5 @@
-import { confirm, message, ready, ui } from "webix";
+import menu from "./menu.js";
+
 const films_dataset = [
   {
     id: 1,
@@ -49,9 +50,10 @@ const films_dataset = [
     rank: 6,
   },
 ];
-ready(() => {
-  ui({
+webix.ready(() => {
+  webix.ui({
     rows: [
+      menu,
       {
         view: "toolbar",
         id: "top_toolbar",
@@ -69,7 +71,7 @@ ready(() => {
                 list.updateItem(item_data.id, item_data);
                 $$("film_form").clear();
                 $$("film_list").unselectAll();
-                message({
+                webix.message({
                   text: "Actualizado con exito",
                   type: "success ",
                   expire: 5000,
@@ -77,7 +79,7 @@ ready(() => {
                 });
               } else {
                 list.add(item_data);
-                message({
+                webix.message({
                   text: "Guardado con exito",
                   type: "success ",
                   expire: 5000,
@@ -99,16 +101,18 @@ ready(() => {
                 item_id
               );
               if (item_id) {
-                confirm(
-                  {
-                    text: "¿Seguro que quiere eliminar la pelicula?",
-                    ok: "Seguro",
-                    cancel: "Cancelar",
-                  },
-                  "confirm-warning"
-                ).then(function () {
-                  list.remove(item_id);
-                });
+                webix
+                  .confirm(
+                    {
+                      text: "¿Seguro que quiere eliminar la pelicula?",
+                      ok: "Seguro",
+                      cancel: "Cancelar",
+                    },
+                    "confirm-warning"
+                  )
+                  .then(function () {
+                    list.remove(item_id);
+                  });
               }
             },
           },
